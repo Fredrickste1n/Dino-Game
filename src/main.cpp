@@ -2,6 +2,7 @@
 #include <raylib.h>
 #include <stdio.h>
 #include "Player.h"
+#include "Floor.h"
 
 using namespace std;
 
@@ -9,6 +10,7 @@ using namespace std;
 const int screenWidth = 1280;
 const int screenHeight = 800;
 
+Floor floor;
 Player player;
 
 int main() {
@@ -17,6 +19,12 @@ int main() {
     InitWindow(screenWidth, screenHeight, "Dino Game"); // Creates window
 
     SetTargetFPS(60);   // Caps fps
+
+    // Floor Attributes
+    floor.width = screenWidth;
+    floor.height = 2 * screenHeight / 5;
+    floor.x = 0;
+    floor.y = 3 * screenHeight / 5;
 
     // Dino Attributes
     player.width = 60;
@@ -32,6 +40,7 @@ int main() {
 
         // Updating
         //---------------------------------------------------------------------------------------------------
+        floor.Update();
         player.Update();
 
         // Checking for collisions
@@ -40,6 +49,7 @@ int main() {
         // Drawing
         //---------------------------------------------------------------------------------------------------
         ClearBackground(SKYBLUE); // Clears bg every frame
+        floor.Draw();
         player.Draw();
 
         // Print titles
