@@ -43,7 +43,7 @@ int main() {
         player.Draw();
 
         // Print titles
-        DrawText(TextFormat("Dino Game"), 0, 0, 40, WHITE);
+        DrawText(TextFormat("Dino Game"), 0, 0, 40, PURPLE);
 
         EndDrawing();
     }
