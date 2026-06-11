@@ -1,8 +1,9 @@
 #include <iostream>
 #include <raylib.h>
 #include <stdio.h>
-#include "Player.h"
+#include "Collisions.h"
 #include "Floor.h"
+#include "Player.h"
 #include "Obstacle.h"
 
 using namespace std;
@@ -32,11 +33,11 @@ int main() {
     player.width = 60;
     player.height = 90;
     player.x = screenWidth / 2 - player.width / 2;
-    player.y = screenHeight / 2 - player.height / 2;
+    player.y = floor.y - player.height;
     player.isAlive = true;
     player.gravAcc = 0.2;
     player.yVelocity = 0;
-    player.floor = floor;
+    player.isCollideFloor = PlayerCollideFloor(floor, player);
 
     // Test Obstacle Attributes
     test.width = 50;
@@ -57,7 +58,8 @@ int main() {
         test.Update();
 
         // Checking for collisions
-
+        player.isCollideFloor = PlayerCollideFloor(floor, player);
+        player.y -= PlayerDepthInFloor(floor, player);
 
         // Drawing
         //---------------------------------------------------------------------------------------------------
@@ -68,9 +70,6 @@ int main() {
 
         // Print titles
         DrawText(TextFormat("Dino Game"), 0, 0, 40, PURPLE);
-        
-        // Prints Y velocity of player
-        //cout << player.yVelocity << endl;
 
         EndDrawing();
     }
