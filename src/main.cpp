@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "Player.h"
 #include "Floor.h"
+#include "Obstacle.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ const int screenHeight = 800;
 
 Floor floor;
 Player player;
+Obstacle test;
 
 int main() {
     cout << "starting game" << endl;
@@ -26,15 +28,22 @@ int main() {
     floor.x = 0;
     floor.y = 3 * screenHeight / 5;
 
-    // Dino Attributes
+    // Player Attributes
     player.width = 60;
     player.height = 90;
     player.x = screenWidth / 2 - player.width / 2;
-    player.y = 0; //screenHeight / 2 - player.height / 2;
+    player.y = screenHeight / 2 - player.height / 2;
     player.isAlive = true;
     player.gravAcc = 0.2;
     player.yVelocity = 0;
     player.floor = floor;
+
+    // Test Obstacle Attributes
+    test.width = 50;
+    test.height = 75;
+    test.x = screenWidth;
+    test.y = floor.y - test.height;
+    test.speedX = 5;
 
     // Main game loop
     //-------------------------------------------------------------------------------------------------------
@@ -45,6 +54,7 @@ int main() {
         //---------------------------------------------------------------------------------------------------
         floor.Update();
         player.Update();
+        test.Update();
 
         // Checking for collisions
 
@@ -54,6 +64,7 @@ int main() {
         ClearBackground(SKYBLUE); // Clears bg every frame
         floor.Draw();
         player.Draw();
+        test.Draw();
 
         // Print titles
         DrawText(TextFormat("Dino Game"), 0, 0, 40, PURPLE);
