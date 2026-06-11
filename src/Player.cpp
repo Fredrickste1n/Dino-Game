@@ -11,6 +11,7 @@ void Player::Draw() {
 void Player::Update() {
     Fall();
     Jump();
+    PlayerDie();
 };
 
 void Player::Fall() {
@@ -24,5 +25,13 @@ void Player::Jump() {
     if(isCollideFloor && IsKeyPressed(KEY_SPACE)) {
         y--; // prevents player from colliding with floor
         yVelocity = -7;
+    }
+}
+
+void Player::PlayerDie() {
+    if(!isAlive) {
+        if(IsKeyPressed(KEY_SPACE)) {
+            isAlive = true;
+        }
     }
 }

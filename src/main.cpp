@@ -37,7 +37,7 @@ int main() {
     player.isAlive = true;
     player.gravAcc = 0.2;
     player.yVelocity = 0;
-    player.isCollideFloor = PlayerCollideFloor(floor, player);
+    player.isCollideFloor = PlayerCollideFloor(player, floor);
 
     // Test Obstacle Attributes
     test.width = 50;
@@ -53,13 +53,21 @@ int main() {
 
         // Updating
         //---------------------------------------------------------------------------------------------------
-        floor.Update();
-        player.Update();
-        test.Update();
+        if(player.isAlive) {
+            floor.Update();
+            player.Update();
+            test.Update();
+        }
+        else {
+            DrawText(TextFormat("YOU DIED"), screenWidth / 2 - 50, 50, 40, RED);
+        }
 
         // Checking for collisions
-        player.isCollideFloor = PlayerCollideFloor(floor, player);
-        player.y -= PlayerDepthInFloor(floor, player);
+        player.isCollideFloor = PlayerCollideFloor(player, floor);
+        player.y -= PlayerDepthInFloor(player, floor);
+        if(PlayerCollideObstacle(player, test)) {
+            player.isAlive = false;
+        }
 
         // Drawing
         //---------------------------------------------------------------------------------------------------

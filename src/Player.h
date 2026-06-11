@@ -16,6 +16,7 @@ public:
 private:
     void Fall();
     void Jump();
+    void PlayerDie();
 };
 
 #endif

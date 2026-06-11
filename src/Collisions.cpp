@@ -4,26 +4,29 @@
 
 using namespace std;
 
-// Checks if player is colliding with floor
-// Keeps player above floor
-bool PlayerCollideFloor(Floor floor, Player player) {
+bool PlayerCollideFloor(Player player, Floor floor) {
     Rectangle playerRect = {player.x, player.y, player.width, player.height};
     Rectangle floorRect = {floor.x, floor.y, floor.width, floor.height};
-    Rectangle collisionRect = GetCollisionRec(playerRect, floorRect);
-    int collisionY = (int)collisionRect.height;
 
     bool isColliding = CheckCollisionRecs(playerRect, floorRect);
-
-    //player.y -= collisionY;
 
     return isColliding;
 }
 
-int PlayerDepthInFloor(Floor floor, Player player) {
+int PlayerDepthInFloor(Player player, Floor floor) {
     Rectangle playerRect = {player.x, player.y, player.width, player.height};
     Rectangle floorRect = {floor.x, floor.y, floor.width, floor.height};
     Rectangle collisionRect = GetCollisionRec(playerRect, floorRect);
     int collisionY = (int)collisionRect.height;
 
     return collisionY;
+}
+
+bool PlayerCollideObstacle(Player player, Obstacle obstacle) {
+    Rectangle playerRect = {player.x, player.y, player.width, player.height};
+    Rectangle obstacleRect = {obstacle.x, obstacle.y, obstacle.width, obstacle.height};
+
+    bool isColliding = CheckCollisionRecs(playerRect, obstacleRect);
+
+    return isColliding;
 }
