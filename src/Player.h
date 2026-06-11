@@ -15,7 +15,8 @@ public:
     void Update();
 
 private:
-    bool PlayerBelowFloor();
+    bool PlayerCollideFloor();
+    int PlayerFloorCollisionY();
     void Fall();
     void Jump();
 };

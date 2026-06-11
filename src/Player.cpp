@@ -1,6 +1,8 @@
 #include <iostream>
 #include <raylib.h>
+#include <cmath>
 #include "Player.h"
+#include "Floor.h"
 
 using namespace std;
 
@@ -10,29 +12,34 @@ void Player::Draw() {
 
 void Player::Update() {
     Fall();
-    
+    Jump();
 };
 
-bool Player::PlayerBelowFloor() {
-    if(floor.y > y + height) {
-        y = floor.y - height;
-        return true;
-        cout << "im falling through the floor!";
-    }
+// Checks if player is colliding with floor
+// Keeps player above floor
+bool Player::PlayerCollideFloor() {
+    Rectangle playerRect = {x, y, width, height};
+    Rectangle floorRect = {floor.x, floor.y, floor.width, floor.height};
+    Rectangle collisionRect = GetCollisionRec(playerRect, floorRect);
+    int collisionY = (int)collisionRect.height;
 
-    return false;
+    bool isColliding = CheckCollisionRecs(playerRect, floorRect);
+
+    y -= collisionY;
+
+    return isColliding;
 }
 
 void Player::Fall() {
-    if(floor.y < y + height && !PlayerBelowFloor()) {
+    if(!PlayerCollideFloor()) {
         yVelocity = yVelocity + gravAcc;
         y += yVelocity;
     }
-    
 }
 
 void Player::Jump() {
-    if(floor.y == y + height) {
-        
+    if(PlayerCollideFloor() && IsKeyPressed(KEY_SPACE)) {
+        y--; // prevents player from colliding with floor
+        yVelocity = -7;
     }
 }

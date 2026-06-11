@@ -32,8 +32,9 @@ int main() {
     player.x = screenWidth / 2 - player.width / 2;
     player.y = 0; //screenHeight / 2 - player.height / 2;
     player.isAlive = true;
-    player.gravAcc = 0.1;
-    player.yVelocity = 3;
+    player.gravAcc = 0.2;
+    player.yVelocity = 0;
+    player.floor = floor;
 
     // Main game loop
     //-------------------------------------------------------------------------------------------------------
@@ -56,6 +57,9 @@ int main() {
 
         // Print titles
         DrawText(TextFormat("Dino Game"), 0, 0, 40, PURPLE);
+        
+        // Prints Y velocity of player
+        //cout << player.yVelocity << endl;
 
         EndDrawing();
     }
