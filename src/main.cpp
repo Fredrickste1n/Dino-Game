@@ -30,8 +30,10 @@ int main() {
     player.width = 60;
     player.height = 90;
     player.x = screenWidth / 2 - player.width / 2;
-    player.y = screenHeight / 2 - player.height / 2;
+    player.y = 0; //screenHeight / 2 - player.height / 2;
     player.isAlive = true;
+    player.gravAcc = 0.1;
+    player.yVelocity = 3;
 
     // Main game loop
     //-------------------------------------------------------------------------------------------------------
