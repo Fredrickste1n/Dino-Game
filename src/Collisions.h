@@ -11,5 +11,6 @@ float PlayerDepthInFloor(Player player, Floor floor);
 
 // Player and Obstacles
 bool PlayerCollideObstacle(Player player, Obstacle obstacle);
+bool PlayerPassObstacle(Player player, Obstacle obstacle);
 
 #endif

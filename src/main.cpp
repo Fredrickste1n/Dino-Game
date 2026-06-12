@@ -14,6 +14,8 @@ using namespace std;
 const int screenWidth = 1280;
 const int screenHeight = 800;
 
+int playerScore = 0;
+
 Floor floor;
 Player player;
 Obstacle start;
@@ -33,21 +35,24 @@ int main() {
     floor.y = 3 * screenHeight / 5;
 
     // Player Attributes
-    player.width = 60;
-    player.height = 90;
+    player.width = 64;
+    player.height = 96;
     player.x = screenWidth / 2 - player.width / 2;
     player.y = floor.y - player.height;
     player.isAlive = true;
-    player.gravAcc = 1.3;
+    player.gravAcc = 1.5;
     player.yVelocity = 0;
     player.isCollideFloor = PlayerCollideFloor(player, floor);
+    player.texture = LoadTexture("txtrs/dino.png");
 
     // Start Obstacle Attributes
-    start.width = 50;
-    start.height = 75;
+    start.width = 56;
+    start.height = 80;
     start.x = screenWidth + 400;
     start.y = floor.y - start.height;
     start.speedX = 8;
+    start.texture = LoadTexture("txtrs/cactus.png");
+
     obstacles.push_back(start);
 
     // Main game loop
@@ -58,13 +63,14 @@ int main() {
         // Updating
         //---------------------------------------------------------------------------------------------------
         if(player.isAlive) {
+            playerScore = KeepScore(player, obstacles);
             GetObstacles(obstacles);
             UpdateObstacles(obstacles);
             floor.Update();
             player.Update();
         }
         else {
-            DrawText(TextFormat("YOU DIED"), screenWidth / 2 - 50, 50, 40, RED);
+            DrawText(TextFormat("YOU DIED"), screenWidth / 2 - 50, 100, 40, RED);
         }
 
         // Checking for collisions
@@ -88,9 +94,18 @@ int main() {
         // Print titles
         //---------------------------------------------------------------------------------------------------
         DrawText(TextFormat("Dino Game"), 0, 0, 40, PURPLE);
+        DrawText(TextFormat("%i", playerScore), screenWidth / 2 - 40, 20, 40, WHITE);
+
+        if(!player.isAlive && IsKeyPressed(KEY_ENTER)) {
+            player.isAlive = true;
+            obstacles.clear();
+            obstacles.push_back(start);
+        }
 
         EndDrawing();
     }
+
+    UnloadTexture(player.texture);
 
     CloseWindow();
     return 0;

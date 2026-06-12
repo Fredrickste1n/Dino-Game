@@ -6,7 +6,8 @@
 using namespace std;
 
 void Obstacle::Draw() {
-    DrawRectangle(x, y, width, height, RED);
+    //DrawRectangle(x, y, width, height, RED);
+    DrawTextureV(texture, (Vector2) {x, y}, WHITE);
 }
 
 void Obstacle::Update() {

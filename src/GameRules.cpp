@@ -4,17 +4,22 @@
 #include <raylib.h>
 #include "Obstacle.h"
 #include "GameRules.h"
+#include "Player.h"
+#include "Collisions.h"
 
 using namespace std;
 
 void GetObstacles(std::vector<Obstacle>& obstacles) {
     Obstacle currentObstacle = obstacles.front();
 
-    if(currentObstacle.x < GetScreenWidth() / 2) {
-        cout << "drawing new obstacle" << endl;
-        Obstacle newObstacle = currentObstacle;
-        newObstacle.x = GetScreenWidth();
-        obstacles.insert(obstacles.begin(), newObstacle);   // add new obstacle to front of obstacles
+    if(currentObstacle.x < GetScreenWidth() - 200) {
+        int rand = GetRandomValue(0,40);
+        cout << rand << endl;
+        if(rand == 3) {
+            Obstacle newObstacle = currentObstacle;
+            newObstacle.x = GetScreenWidth();
+            obstacles.insert(obstacles.begin(), newObstacle);   // add new obstacle to front of obstacles
+        }
     }
 }
 
@@ -31,9 +36,15 @@ void UpdateObstacles(std::vector<Obstacle>& obstacles) {
         obstacles.erase(obstacles.begin() + i);
         obstacle.x -= obstacle.speedX;
         obstacles.insert(obstacles.begin() + i, obstacle);
-/*
-        if(obstacle.x < GetScreenWidth() - obstacle.width) {  
-            obstacles.erase(obstacles.begin() + i);
-        } */
     }
+}
+
+int KeepScore(Player player, std::vector<Obstacle> obstacles) {
+    int score = 0;
+    for(Obstacle obstacle : obstacles) {
+        if(PlayerPassObstacle(player, obstacle)) {
+            score++;
+        }
+    }
+    return score;
 }

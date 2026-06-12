@@ -6,9 +6,12 @@ public:
     float x, y;
     float width, height;
     bool isAlive;
+
     float yVelocity;
     float gravAcc;
     bool isCollideFloor;
+
+    Texture2D texture;
 
     void Draw();
     void Update();

@@ -30,3 +30,10 @@ bool PlayerCollideObstacle(Player player, Obstacle obstacle) {
 
     return isColliding;
 }
+
+bool PlayerPassObstacle(Player player, Obstacle obstacle) {
+    if(player.x + player.width / 2 >= obstacle.x) {
+        return true;
+    }
+    return false;
+}

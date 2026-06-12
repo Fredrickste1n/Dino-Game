@@ -5,7 +5,8 @@
 using namespace std;
 
 void Player::Draw() {
-    DrawRectangle(x, y, width, height, PINK);
+    //DrawRectangle(x, y, width, height, PINK);
+    DrawTextureV(texture, (Vector2) {x, y}, WHITE);
 };
 
 void Player::Update() {

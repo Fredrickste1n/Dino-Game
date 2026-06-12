@@ -9,6 +9,8 @@ public:
     float y;
     float width, height;
     int speedX;
+
+    Texture2D texture;
     
     void Draw();
     void Update();
