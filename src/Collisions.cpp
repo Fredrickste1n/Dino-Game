@@ -13,11 +13,11 @@ bool PlayerCollideFloor(Player player, Floor floor) {
     return isColliding;
 }
 
-int PlayerDepthInFloor(Player player, Floor floor) {
+float PlayerDepthInFloor(Player player, Floor floor) {
     Rectangle playerRect = {player.x, player.y, player.width, player.height};
     Rectangle floorRect = {floor.x, floor.y, floor.width, floor.height};
     Rectangle collisionRect = GetCollisionRec(playerRect, floorRect);
-    int collisionY = (int)collisionRect.height;
+    float collisionY = collisionRect.height;
 
     return collisionY;
 }

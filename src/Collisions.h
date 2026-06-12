@@ -7,7 +7,7 @@
 
 // Player and floor
 bool PlayerCollideFloor(Player player, Floor floor);
-int PlayerDepthInFloor(Player player, Floor floor);
+float PlayerDepthInFloor(Player player, Floor floor);
 
 // Player and Obstacles
 bool PlayerCollideObstacle(Player player, Obstacle obstacle);

@@ -1,6 +1,8 @@
 #include <iostream>
+#include <vector>
 #include <raylib.h>
 #include <stdio.h>
+#include "GameRules.h"
 #include "Collisions.h"
 #include "Floor.h"
 #include "Player.h"
@@ -14,7 +16,8 @@ const int screenHeight = 800;
 
 Floor floor;
 Player player;
-Obstacle test;
+Obstacle start;
+vector<Obstacle> obstacles;
 
 int main() {
     cout << "starting game" << endl;
@@ -35,16 +38,17 @@ int main() {
     player.x = screenWidth / 2 - player.width / 2;
     player.y = floor.y - player.height;
     player.isAlive = true;
-    player.gravAcc = 0.2;
+    player.gravAcc = 1.3;
     player.yVelocity = 0;
     player.isCollideFloor = PlayerCollideFloor(player, floor);
 
-    // Test Obstacle Attributes
-    test.width = 50;
-    test.height = 75;
-    test.x = screenWidth;
-    test.y = floor.y - test.height;
-    test.speedX = 5;
+    // Start Obstacle Attributes
+    start.width = 50;
+    start.height = 75;
+    start.x = screenWidth + 400;
+    start.y = floor.y - start.height;
+    start.speedX = 8;
+    obstacles.push_back(start);
 
     // Main game loop
     //-------------------------------------------------------------------------------------------------------
@@ -54,29 +58,35 @@ int main() {
         // Updating
         //---------------------------------------------------------------------------------------------------
         if(player.isAlive) {
+            GetObstacles(obstacles);
+            UpdateObstacles(obstacles);
             floor.Update();
             player.Update();
-            test.Update();
         }
         else {
             DrawText(TextFormat("YOU DIED"), screenWidth / 2 - 50, 50, 40, RED);
         }
 
         // Checking for collisions
-        player.isCollideFloor = PlayerCollideFloor(player, floor);
-        player.y -= PlayerDepthInFloor(player, floor);
-        if(PlayerCollideObstacle(player, test)) {
-            player.isAlive = false;
+        if(player.isAlive) {
+            player.isCollideFloor = PlayerCollideFloor(player, floor);
+            player.y -= PlayerDepthInFloor(player, floor) - 1;
+            for(Obstacle obstacle : obstacles) {
+                if(PlayerCollideObstacle(player, obstacle)) {
+                    player.isAlive = false;
+                }
+            }
         }
 
         // Drawing
         //---------------------------------------------------------------------------------------------------
         ClearBackground(SKYBLUE); // Clears bg every frame
+        DrawObstacles(obstacles);
         floor.Draw();
         player.Draw();
-        test.Draw();
 
         // Print titles
+        //---------------------------------------------------------------------------------------------------
         DrawText(TextFormat("Dino Game"), 0, 0, 40, PURPLE);
 
         EndDrawing();

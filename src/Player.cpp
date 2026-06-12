@@ -22,9 +22,9 @@ void Player::Fall() {
 }
 
 void Player::Jump() {
-    if(isCollideFloor && IsKeyPressed(KEY_SPACE)) {
-        y--; // prevents player from colliding with floor
-        yVelocity = -7;
+    if(isCollideFloor && IsKeyDown(KEY_SPACE)) {
+        y--; // prevents player from colliding with floor so jump is possible
+        yVelocity = -25;
     }
 }
 
