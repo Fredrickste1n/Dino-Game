@@ -7,6 +7,7 @@
 #include "Floor.h"
 #include "Player.h"
 #include "Obstacle.h"
+#include "Background.h"
 
 using namespace std;
 
@@ -16,6 +17,11 @@ const int screenHeight = 800;
 
 int playerScore = 0;
 
+Background bg;
+Clouds clouds1;
+Clouds clouds2;
+Ground ground1;
+Ground ground2;
 Floor floor;
 Player player;
 Obstacle start;
@@ -27,6 +33,37 @@ int main() {
     InitWindow(screenWidth, screenHeight, "Dino Game"); // Creates window
 
     SetTargetFPS(60);   // Caps fps
+
+    // BackGround Attributes
+    //----------------------------------------------------------------------------------
+    bg.x = 0;
+    bg.y = 0;
+
+    // CLOUDS
+    //----------------------------------------------------------------------------------
+
+    bg.clouds1 = clouds1;
+    bg.clouds1.x = bg.x;
+    bg.clouds1.y = bg.y;
+    bg.clouds1.texture = LoadTexture("txtrs/clouds.png");
+
+    bg.clouds2 = clouds2;
+    bg.clouds2.x = bg.x + screenWidth;
+    bg.clouds2.y = bg.y;
+    bg.clouds2.texture = LoadTexture("txtrs/clouds.png");
+
+    // GROUND
+    //----------------------------------------------------------------------------------
+
+    bg.ground1 = ground1;
+    bg.ground1.x = bg.x;
+    bg.ground1.y = bg.y - 8;
+    bg.ground1.texture = LoadTexture("txtrs/ground.png");
+
+    bg.ground2 = ground2;
+    bg.ground2.x = bg.x + screenWidth;
+    bg.ground2.y = bg.y - 8;
+    bg.ground2.texture = LoadTexture("txtrs/ground.png");
 
     // Floor Attributes
     floor.width = screenWidth;
@@ -63,14 +100,12 @@ int main() {
         // Updating
         //---------------------------------------------------------------------------------------------------
         if(player.isAlive) {
+            bg.Update();
             playerScore = KeepScore(player, obstacles);
             GetObstacles(obstacles);
             UpdateObstacles(obstacles);
             floor.Update();
             player.Update();
-        }
-        else {
-            DrawText(TextFormat("YOU DIED"), screenWidth / 2 - 50, 100, 40, RED);
         }
 
         // Checking for collisions
@@ -87,14 +122,17 @@ int main() {
         // Drawing
         //---------------------------------------------------------------------------------------------------
         ClearBackground(SKYBLUE); // Clears bg every frame
+        bg.Draw();
         DrawObstacles(obstacles);
-        floor.Draw();
         player.Draw();
 
         // Print titles
         //---------------------------------------------------------------------------------------------------
         DrawText(TextFormat("Dino Game"), 0, 0, 40, PURPLE);
-        DrawText(TextFormat("%i", playerScore), screenWidth / 2 - 40, 20, 40, WHITE);
+        DrawText(TextFormat("%i", playerScore), screenWidth / 2 - 40, 20, 40, BLUE);
+        if(!player.isAlive) {
+            DrawText(TextFormat("YOU DIED"), screenWidth / 2 - 50, 100, 40, RED);
+        }
 
         if(!player.isAlive && IsKeyPressed(KEY_ENTER)) {
             player.isAlive = true;
@@ -106,6 +144,10 @@ int main() {
     }
 
     UnloadTexture(player.texture);
+    UnloadTexture(bg.clouds1.texture);
+    UnloadTexture(bg.clouds2.texture);
+    UnloadTexture(bg.ground1.texture);
+    UnloadTexture(bg.ground2.texture);
 
     CloseWindow();
     return 0;
