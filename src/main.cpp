@@ -16,6 +16,7 @@ const int screenWidth = 1280;
 const int screenHeight = 800;
 
 int playerScore = 0;
+int frames = 0;
 
 Background bg;
 Clouds clouds1;
@@ -80,7 +81,8 @@ int main() {
     player.gravAcc = 1.5;
     player.yVelocity = 0;
     player.isCollideFloor = PlayerCollideFloor(player, floor);
-    player.texture = LoadTexture("txtrs/dino.png");
+    player.textureFirst = LoadTexture("txtrs/dino.png");
+    player.textureSecond = LoadTexture("txtrs/dinoRun.png");
 
     // Start Obstacle Attributes
     start.width = 56;
@@ -100,12 +102,14 @@ int main() {
         // Updating
         //---------------------------------------------------------------------------------------------------
         if(player.isAlive) {
+            frames++;
             bg.Update();
             playerScore = KeepScore(player, obstacles);
             GetObstacles(obstacles);
             UpdateObstacles(obstacles);
             floor.Update();
             player.Update();
+            player.Animate(frames);
         }
 
         // Checking for collisions
@@ -143,7 +147,8 @@ int main() {
         EndDrawing();
     }
 
-    UnloadTexture(player.texture);
+    UnloadTexture(player.textureFirst);
+    UnloadTexture(player.textureSecond);
     UnloadTexture(bg.clouds1.texture);
     UnloadTexture(bg.clouds2.texture);
     UnloadTexture(bg.ground1.texture);

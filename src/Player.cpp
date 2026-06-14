@@ -6,7 +6,7 @@ using namespace std;
 
 void Player::Draw() {
     //DrawRectangle(x, y, width, height, PINK);
-    DrawTextureV(texture, (Vector2) {x, y}, WHITE);
+    DrawTextureV(currentTexture, (Vector2) {x, y}, WHITE);
 };
 
 void Player::Update() {
@@ -34,5 +34,14 @@ void Player::PlayerDie() {
         if(IsKeyPressed(KEY_SPACE)) {
             isAlive = true;
         }
+    }
+}
+
+void Player::Animate(int frames) {
+    if((frames / 10) % 2 == 1) {
+        currentTexture = textureSecond;
+    }
+    else if(isCollideFloor){
+        currentTexture = textureFirst;
     }
 }

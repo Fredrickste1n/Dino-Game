@@ -11,10 +11,11 @@ public:
     float gravAcc;
     bool isCollideFloor;
 
-    Texture2D texture;
+    Texture2D textureFirst, textureSecond, currentTexture;
 
     void Draw();
     void Update();
+    void Animate(int frames);
 
 private:
     void Fall();
